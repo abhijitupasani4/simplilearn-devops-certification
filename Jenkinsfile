@@ -26,7 +26,7 @@ pipeline {
 
         stage('Remove Image') {
             steps {
-                dir('abhijitupasani4/simplilearn-devops-certification') {
+                {
                     bat "\"${dockerExecutable}\" rmi ${registry}:${BUILD_NUMBER}"
                 }
             }
