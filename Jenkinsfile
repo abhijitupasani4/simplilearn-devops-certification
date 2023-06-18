@@ -26,9 +26,9 @@ pipeline {
 
         stage('Remove Image') {
             steps {
-                {
+                
                     bat "\"${dockerExecutable}\" rmi ${registry}:${BUILD_NUMBER}"
-                }
+                
             }
         }
     }
