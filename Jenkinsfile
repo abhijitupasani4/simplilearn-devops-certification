@@ -2,6 +2,7 @@ pipeline {
   environment {
     registry = "abhijitupasani4/simplilearn-devops-certification"
     registryCredential = 'dockerhub'
+    dockerExecutable = "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe"
   }
   agent any
   stages {
@@ -25,7 +26,7 @@ pipeline {
 
         stage('Remove Image') {
         steps{
-            sh "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe rmi $registry:$BUILD_NUMBER"
+             bat "\"${dockerExecutable}\" rmi $registry:$BUILD_NUMBER"
         }
         }
    }   
