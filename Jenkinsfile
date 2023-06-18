@@ -26,7 +26,7 @@ pipeline {
 
         stage('Remove Image') {
             steps {
-                dir(env.WORKSPACE){
+                dir(registry){
                     bat "\"${dockerExecutable}\" rmi ${registry}:${BUILD_NUMBER}"
                 }
             }
@@ -38,7 +38,7 @@ pipeline {
         stage('Execute Image') {
 
                 def customImage = docker.build("abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}")
-                customImage.inside("-w ${env.WORKSPACE}") {
+                customImage.inside("-w ${registry}") {
                     sh 'echo This is the code executing inside the container.'
                 }
             
