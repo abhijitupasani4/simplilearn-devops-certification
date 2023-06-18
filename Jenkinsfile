@@ -1,44 +1,31 @@
 pipeline {
   agent any
-  
-  environment {
-    registry = "abhijitupasani4/simplilearn-devops-certification"
-    registryCredential = 'dockerhub'
-  }
-  
+
   stages {
-    stage('Build Image') {
+    stage('Checkout') {
       steps {
-        script {
-          docker.image().build(registry + ":$BUILD_NUMBER")
-        }
+        checkout scm
       }
     }
-    
-    stage('Push Image') {
+
+    stage('Build Docker Image') {
       steps {
-        script {
-          docker.withRegistry('', registryCredential) {
-            docker.image(registry + ":$BUILD_NUMBER").push()
-          }
-        }
+        sh 'docker build -t abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER} .'
+        echo "Building Docker Image"
       }
     }
-    
-    stage('Remove Image') {
+
+    stage('Push Docker Image') {
       steps {
-        sh "docker rmi $registry:$BUILD_NUMBER"
+        sh 'docker push abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}'
+        echo "Pushing Docker Image"
       }
     }
-    
-    stage('Execute Image') {
-      agent {
-        docker {
-          image registry + ":$BUILD_NUMBER"
-        }
-      }
+
+    stage('Run Docker Container') {
       steps {
-        sh 'echo This is the code executing inside the container.'
+        sh 'docker run -d -p 8080:3000 --name my-container abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}'
+        echo "Running Docker Container"
       }
     }
   }
