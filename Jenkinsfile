@@ -24,24 +24,24 @@ pipeline {
             }
         }
 
-        // stage('Remove Image') {
-        //     steps {
-        //         dir(env.WORKSPACE){
-        //             bat "\"${dockerExecutable}\" rmi ${registry}:${BUILD_NUMBER}"
-        //         }
-        //     }
-        // }
+        stage('Remove Image') {
+            steps {
+                
+                    bat "\"${dockerExecutable}\" rmi ${registry}:${BUILD_NUMBER}"
+                }
+            }
+        }
     }
 }
 
-    // node {
-    //     stage('Execute Image') {
+    node {
+        stage('Execute Image') {
 
-    //             def customImage = docker.build("abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}")
-    //             customImage.inside("-w abhijitupasani4/simplilearn-devops-certification") {
-    //                 sh 'echo This is the code executing inside the container.'
-    //             }
+                def customImage = docker.build("abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}")
+                customImage.inside("-w abhijitupasani4/simplilearn-devops-certification") {
+                    sh 'echo This is the code executing inside the container.'
+                }
             
-    //     }
-    // }
+        }
+    }
 
