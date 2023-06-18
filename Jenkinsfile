@@ -5,41 +5,47 @@ pipeline {
   }
   agent any
   stages {
-    stage('Building image') {
-      steps {
-        script {
-          dockerImage = docker.build(registry + ":$BUILD_NUMBER")
+        stage('Building image') {
+        steps{
+            script {
+            dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            }
         }
-      }
-    }
-
-    stage('Deploy Image') {
-      steps {
-        script {
-          docker.withRegistry('', 'dockerhub') {
-            dockerImage.push()
-          }
         }
-      }
-    }
 
-    stage('Remove Image') {
-      steps {
-        script {
-          sh "docker rmi $registry:$BUILD_NUMBER"
+        stage('Deploy Image') {
+        steps{
+            script {
+            docker.withRegistry( '', 'dockerhub' ) {
+                dockerImage.push()
+            }
+            }
         }
-      }
-    }
+        }
 
-    stage('Execute Image') {
-  steps {
-    script {
-      def customImage = docker.build("abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}")
-      customImage.inside {
-        bat 'echo This is the code executing inside the container.'
-      }
-    }
-  }
+        stage('Remove Image') {
+        steps{
+            sh "C:\Program Files\Docker\docker.exe rmi $registry:$BUILD_NUMBER"
+        }
+        }
+
+
+//         stage('Execute Image'){
+//         steps{
+//         def customImage = docker.build("abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}")
+//         customImage.inside {
+//             sh 'echo This is the code executing inside the container.'
+//         }
+        
+//     }
+//    }   
 }
-  }
+
+node {
+    stage('Execute Image'){
+        def customImage = docker.build("abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}")
+        customImage.inside {
+            sh 'echo This is the code executing inside the container.'
+        }
+    }
 }
