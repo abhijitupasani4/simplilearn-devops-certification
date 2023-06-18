@@ -25,7 +25,7 @@ pipeline {
 
         stage('Remove Image') {
         steps{
-            sh "C:\Program Files\Docker\docker.exe rmi $registry:$BUILD_NUMBER"
+            sh "C:\\Program Files\\Docker\\docker.exe rmi $registry:$BUILD_NUMBER"
         }
         }
 
