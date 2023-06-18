@@ -42,7 +42,7 @@ pipeline {
 
     node {
         stage('Execute Image') {
-            steps {
+
                 echo 'Executing Docker image...'
 
                     def customImage = docker.build("${registry}:${env.BUILD_NUMBER}")
@@ -51,7 +51,7 @@ pipeline {
                     }
                 }
                 echo 'Docker image executed successfully.'
-            }
+            
         }
     
 
