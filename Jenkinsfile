@@ -3,6 +3,7 @@ pipeline {
         registry = "abhijitupasani4/simplilearn-devops-certification"
         registryCredential = 'dockerhub'
         dockerExecutable = "C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe"
+        workspaceDir = "C:\\Users\\Asus\\.jenkins\\workspace\\simplilearn-devops-certification"
     }
     agent any
     stages {
@@ -26,22 +27,24 @@ pipeline {
 
         stage('Remove Image') {
             steps {
-                dir(env.WORKSPACE){
+                dir(workspaceDir) {
                     bat "\"${dockerExecutable}\" rmi ${registry}:${BUILD_NUMBER}"
                 }
             }
         }
-
+        
         stage('Execute Image') {
             steps {
                 script {
-                    docker.image("abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}").inside {
-                        sh 'echo This is the code executing inside the container.'
+                    dir(workspaceDir) {
+                        sh "docker run -v ${workspaceDir}:${workspaceDir} -w ${workspaceDir} ${registry}:${BUILD_NUMBER} echo 'This is the code executing inside the container.'"
                     }
                 }
             }
+        }
     }
 }
+
 
     // node {
     //     stage('Execute Image') {
@@ -52,5 +55,5 @@ pipeline {
     //             }
             
     //     }
-    }
+    
 
