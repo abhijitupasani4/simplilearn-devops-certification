@@ -25,17 +25,25 @@ pipeline {
 
         stage('Remove Image') {
         steps{
-            sh "docker rmi $registry:$BUILD_NUMBER"
+            bat "docker rmi $registry:$BUILD_NUMBER"
         }
         }
-   }   
-}
 
-node {
-    stage('Execute Image'){
+
+        stage('Execute Image'){
         def customImage = docker.build("abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}")
         customImage.inside {
             sh 'echo This is the code executing inside the container.'
         }
     }
+   }   
 }
+
+// node {
+//     stage('Execute Image'){
+//         def customImage = docker.build("abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}")
+//         customImage.inside {
+//             sh 'echo This is the code executing inside the container.'
+//         }
+//     }
+// }
