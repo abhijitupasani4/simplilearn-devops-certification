@@ -38,7 +38,7 @@ pipeline {
         stage('Execute Image') {
 
                 def customImage = docker.build("abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}")
-                customImage.inside {
+                customImage.inside("-w ${env.WORKSPACE}") {
                     sh 'echo This is the code executing inside the container.'
                 }
             
