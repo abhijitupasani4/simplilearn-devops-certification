@@ -32,6 +32,7 @@ pipeline {
             }
         }
     }
+}
 
     node {
         stage('Execute Image') {
@@ -43,4 +44,4 @@ pipeline {
             }
         }
     }
-}
+
