@@ -31,7 +31,7 @@ pipeline {
 
         stage('Execute Image') {
             steps {
-                node {
+                node('my-agent-label') {
                     script {
                         def customImage = docker.build("${registry}:${env.BUILD_NUMBER}")
                         customImage.inside {
