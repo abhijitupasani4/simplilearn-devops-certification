@@ -30,15 +30,7 @@ pipeline {
         }
 
 
-//         stage('Execute Image'){
-//         steps{
-//         def customImage = docker.build("abhijitupasani4/simplilearn-devops-certification:${env.BUILD_NUMBER}")
-//         customImage.inside {
-//             sh 'echo This is the code executing inside the container.'
-//         }
-        
-//     }
-//    }   
+   
 }
 
 node {
@@ -48,4 +40,5 @@ node {
             sh 'echo This is the code executing inside the container.'
         }
     }
+}
 }
